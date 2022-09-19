@@ -1,0 +1,112 @@
+[
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 1,
+        "fields": {
+            "is_watched": "Yes",
+            "film_title": "Knives Out",
+            "film_rating": 3.9,
+            "film_release_date": "27 November 2019",
+            "film_review": "Film nya bagus"
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 2,
+        "fields": {
+            "is_watched": "No",
+            "film_title": "KKN di Desa Penari",
+            "film_rating": 3.1,
+            "film_release_date": "30 April 2022",
+            "film_review": "Film nya kurang menggambarkan kisah nyatanya"
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 3,
+        "fields": {
+            "is_watched": "No",
+            "film_title": "Gundala",
+            "film_rating": 3.1,
+            "film_release_date": "29 Agustus 2019",
+            "film_review": "CGI nya sudah sangat inovatif"
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 4,
+        "fields": {
+            "is_watched": "Yes",
+            "film_title": "Top Gun: Maverick",
+            "film_rating": 4.2,
+            "film_release_date": "27 Mei 2022",
+            "film_review": "Drama nya sangat menyentuh"
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 5,
+        "fields": {
+            "is_watched": "No",
+            "film_title": "Parasite",
+            "film_rating": 4.2,
+            "film_release_date": "21 Juni 2019",
+            "film_review": "Film nya dipikirkan dengan sangat matang"
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 6,
+        "fields": {
+            "is_watched": "Yes",
+            "film_title": "Spider-Man: No Way Home",
+            "film_rating": 4.1,
+            "film_release_date": "15 Desember 2021",
+            "film_review": "Cross universe terbaik"
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 7,
+        "fields": {
+            "is_watched": "Yes",
+            "film_title": "Ratatouille",
+            "film_rating": 4.0,
+            "film_release_date": "28 Juni 2007",
+            "film_review": "Film yang bagus dan mendidik untuk anak"
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 8,
+        "fields": {
+            "is_watched": "Yes",
+            "film_title": "Titanic",
+            "film_rating": 3.9,
+            "film_release_date": "5 Januari 1998",
+            "film_review": "Sangat menegangkan dan menyedihkan"
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 9,
+        "fields": {
+            "is_watched": "No",
+            "film_title": "Interstellar",
+            "film_rating": 4.3,
+            "film_release_date": "6 November 2014",
+            "film_review": "Film nya cukup memutar otak"
+        }
+    },
+    {
+        "model": "mywatchlist.mywatchlist",
+        "pk": 10,
+        "fields": {
+            "is_watched": "Yes",
+            "film_title": "The Imitation Game",
+            "film_rating": 4.0,
+            "film_release_date": "28 September 2014",
+            "film_review": "Sangat menggambarkan cerita aslinya"
+        }
+    }
+]
