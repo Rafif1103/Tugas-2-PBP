@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+ {% block content %}
+
+  <h1>Lab 3 Assignment PBP/PBD</h1>
+
+  <h5>Name: </h5>
+  <p>{{nama}}</p>
+
+  <h5>Student ID: </h5>
+  <p>{{npm}}</p>
+
+  <h2>Username: </h2>
+  <h5>{{user}}</h5>
+
+  <table>
+    <tr>
+      <th>Tanggal Pembuatan Tugas</th>
+      <th>Judul Tugas</th>
+      <th>Deskripsi Tugas</th>
+      <th>Selesai/Belum Selesai</th>
+    </tr>
+    {% comment %} Add the data below this line {% endcomment %}
+    {% for task in list_task %}
+    <tr>
+        <th>{{task.date}}</th>
+        <th>{{task.title}}</th>
+        <th>{{task.description}}</th>
+        {% if task.is_finished %}
+          <th>Selesai</th>
+        {% else %}
+          <th>Belum Selesai</th>
+        {% endif %}
+          <form method="POST" action="{% url 'todolist:change_status' %}">  
+            {% csrf_token %}  
+              <input type="hidden" value="{{task.id}}" name="task_id">
+              <td><input type="submit" value="Ubah" /></td>
+          </form>
+        <td>
+          <form method="POST" action="{% url 'todolist:delete_status' %}">
+            {% csrf_token %}  
+            <input type="hidden" value="{{task.id}}" name="task_id">
+            <input type="submit" value="Delete"></button>
+          </form>
+        </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <button><a href="{% url 'todolist:logout' %}">Logout</a></button>
+  <button><a href="{% url 'todolist:addTask' %}">Tambah Task</a></button>
+
+ {% endblock content %}
