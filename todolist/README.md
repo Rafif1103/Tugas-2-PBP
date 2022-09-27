@@ -12,6 +12,18 @@ Saat pengguna menekan tombol submit, sistem akan membuat sebuah HTTP request kep
 
 **Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.**
 
-Pertama, kita membuat sebuah registration form sebagai tempat untuk user membuat akun dan masuk ke halaman utamanya nanti menggunakan UserCreationForm() dan input type submit berbentuk button. Kedua, membuat sebuah fungsi untuk login dari data yang sudah disimpan pada pembuatan registration form dan tombol untuk memverifikasi data yang dimasukkan. Jika username dan password sesuai, maka user akan diarahkan ke halaman utama (/todolist/) dengan cara `return redirect('todolist:show_todolist')`. Akan tetapi, bila user menginput username atau password tidak sesuai dengan yang ada di database, user akan diminta untuk menginput ulang sampai data yang dimasukkan sesuai. Pada halaman utama, kita membuat sebuah fungsi bernama show_todolist yang akan menampilkan data list task yang nanti akan ditambahkan oleh user. Data ini ditampilkan berbentuk tabel yang diambil dari variabel context pada show_todolist. Variabel ini berisikan data pada setiap atribut dari models.py yang dihubungkan dengan user yang sedang login `data_todolist = Task.objects.filter(user=request.user)` dan `context={'data'=data_todolist}`. variabel data pada context ini nantinya akan diloop pada todolist.html dan ditampilkan sesuai dengan banyaknya elemen. Untuk halaman user menambahkan task baru (addTask) dapat dibuat dengan menggunakan custom form melalui forms.py. Kita dapat exclude atribut user karena sesuai dengan user yang login dan atribut date karena sudah terisi secara terotomatis. Jika user klik tombol tambah, maka fungsi addTask pada views.py akan dieksekusi dan form tadi akan di-save sehingga bisa ditampilkan oleh fungsi show_todolist.
+Pertama, kita membuat sebuah registration form sebagai tempat untuk user membuat akun dan masuk ke halaman utamanya nanti menggunakan UserCreationForm() dan input type submit berbentuk button. Kedua, membuat sebuah fungsi untuk login dari data yang sudah disimpan pada pembuatan registration form dan tombol untuk memverifikasi data yang dimasukkan. Jika username dan password sesuai, maka user akan diarahkan ke halaman utama (/todolist/) dengan cara ```return redirect('todolist:show_todolist')```. Akan tetapi, bila user menginput username atau password tidak sesuai dengan yang ada di database, user akan diminta untuk menginput ulang sampai data yang dimasukkan sesuai. Pada halaman utama, kita membuat sebuah fungsi bernama show_todolist yang akan menampilkan data list task yang nanti akan ditambahkan oleh user. Data ini ditampilkan berbentuk tabel yang diambil dari variabel context pada show_todolist. Variabel ini berisikan data pada setiap atribut dari models.py yang dihubungkan dengan user yang sedang login ```data_todolist = Task.objects.filter(user=request.user)``` dan ```context={'data'=data_todolist}```. variabel data pada context ini nantinya akan diloop pada todolist.html dan ditampilkan sesuai dengan banyaknya elemen. Untuk halaman user menambahkan task baru (addTask) dapat dibuat dengan menggunakan custom form melalui forms.py. Kita dapat exclude atribut user karena sesuai dengan user yang login dan atribut date karena sudah terisi secara terotomatis. Jika user klik tombol tambah, maka fungsi addTask pada views.py akan dieksekusi dan form tadi akan di-save sehingga bisa ditampilkan oleh fungsi show_todolist.
 
+
+***Link Heroku:***
+HALAMAN LOGIN: https://tugas-2-pbp-rafif.herokuapp.com/todolist/login/
+HALAMAN REGISTER: https://tugas-2-pbp-rafif.herokuapp.com/todolist/register/
+HALAMAN UTAMA: https://tugas-2-pbp-rafif.herokuapp.com/todolist/
+HALAMAN TAMBAH TODOLIST: https://tugas-2-pbp-rafif.herokuapp.com/todolist/create-task/
+
+**DUMMY ACCOUNT**:
+1. username: ayambakar
+   password: bukandigoreng123
+2. username: ayamgoreng
+   password: bukandibakar123
 
