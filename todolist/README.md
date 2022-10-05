@@ -27,3 +27,38 @@ HALAMAN TAMBAH TODOLIST: https://tugas-2-pbp-rafif.herokuapp.com/todolist/create
 2. username: ayamgoreng
    password: bukandibakar123
 
+TUGAS 5
+
+**Apa perbedaan dari Inline, Internal, dan External CSS? Apa saja kelebihan dan kekurangan dari masing-masing style?**
+1. Internal CSS adalah kode CSS yang ditulis pada halaman html yang ingin dikustomisasi dengan memberikan tag     <style></style>. Internal CSS biasanya dibuat pada bagian header dari kode HTML. Internal CSS ini berguna jika kita ingin mengubah tampilan halaman pada satu file html saja (tidak secara universal), kita juga tidak perlu melakukan upload file karena CSS dan HTML berada pada 1 file, dan Class & ID dapat digunakan oleh internal stylesheet. Internal CSS ini juga memiliki beberapa kekurangan seperti tidak efisien bila kita ingin membuat tampilan beberapa halaman web menjadi serupa dan membuat performa website menjadi menurun karena CSS yang berbeda-beda mengakibatkan adanya loading time setiap kali refresh halaman website
+
+2. External CSS merupakan sebuah kode CSS yang ditulis di luar kode HTML nya pada file yang memiliki extension .css. Hal ini dapat dicapai dengan melakukan ref ke file CSS pada bagian <head> dari HTML. Keuntungan dari External CSS adalah style CSS dapat digunakan untuk banyak halaman website sekaligus sehingga performa website dapat meningkat karena berkurangnya waktu loading screen, serta struktur file HTML menjadi lebih rapih dan mudah dibaca. Kekurangan dari penggunaan CSS dengan metode ini adalah halaman default HTML akan menjadi berantakan bila file CSS gagal dipanggil oleh HTML.
+
+3. Inline CSS adalah kode CSS yang ditulis langsung pada atribut elemen HTML. Inline CSS berguna untuk melakukan pengujian dan melihat perubahan pada elemen yang diberikan inline CSS. Implementasi ini juga membuat proses permintaan HTTP (HTTP request) menjadi lebih keci dan load website menjadi lebih cepat. Kekurangan dari Inline CSS adalah kurang efisien hanya dapat diterapkan pada 1 elemen saja.
+
+**Jelaskan tag HTML5 yang kamu ketahui.**
+1. <h1></h1> - <h6></h6> tag heading yang berguna untuk membuat user lebih memperhatikan teks pada tag heading karena ukuran dan font style nya yang cukup berbeda dari text biasa pada tag html lain
+2. <li></li> tag untuk membuat suatu list terurut pada HTML
+3. <p></p> tag untuk membuat suatu teks paragraf, sehingga browser akan otomatis membuat suatu baris baru sebelum dan sesudah tag <p>
+4. <br></br> tag untuk membuat suatu line baru tanpa harus mendefine suatu paragraf
+5. <table></table> tag untuk membuat tabel (default tanpa border) pada HTML
+6. <a></a> tag untuk melakukan redirect pada link atau function yang tertera di tag anchor
+
+**Jelaskan tipe-tipe CSS selector yang kamu ketahui.**
+1. .class , untuk memilih semua elemen pada class yang dimaksud
+2. #id, memilih semua elemen HTML dengan id="id"
+3. element, memilih semua elemen HTML yang dimaksud (seperti p, h1, button, dll)
+4. element1,element2 , memilih semua elemen pada element1 dan element2 secara bersamaan
+5. * , memilih semua elemen yang ada pada file html
+6. :hover, memilih suatu elemen saat mouse hover di atas elemen tersebut
+
+**Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.**
+1. Membuat suatu file html baru yang bernama todolist_cards dengan routingnya sendiri yaitu show-cards pada urls.py
+2. Membuat suatu function pada views.py yang dapat mengakses todolist_cards.html untuk melihat todolist dalam bentuk cards
+3. Membuat suatu class cards menggunakan div class="cards" dan melakukan editing pada cards dengan menggunakan internal css
+4. Melakukan modifikasi terhadap data yang ditampilkan agar muat dalam 1 card (1 todolist = 1 card)
+5. Membuat fungsi dan routing baru untuk tombol ubah & delete pada todolist sehingga tidak perlu untuk kembali ke halaman utama todolist yang menampilkan tabel
+6. Membuat suatu anchor button yang mengarah pada halaman todolist yang menampilkan tabel sehingga pengguna dapat memilih menampilkan todolist dalam tabel atau cards
+7. Melakukan adjustment terhadap posisi button sehingga tidak bertabrakan dengan cards
+8. Membuat animasi saat mouse di hover di atas cards (menambahkan shadow)
+9. Menambahkan media querry sehingga halaman todolist dapat diakses dan dilihat dengan nyaman oleh pengguna pada device lain

@@ -1,14 +1,30 @@
 table{
-    border: 2px solid;
+    border: 1px solid;
     border-collapse: collapse;
-    width: 100%;
+    width: 80%;
 }
 
 th{
-    border: 1px solid;
-    height: 30px;
+    border: 1px solid darkgoldenrod;
+    background-color: rgb(162, 160, 120);
 }
 
-h2{
-    text-align: center;
+td{
+    padding: 15px;
+    border: 1px solid rgb(109, 108, 106);
+    font-family: 'Lucida Handwriting';
+    background-color: beige;
+    text-align: left;
 }
+
+body {
+    background-color: blanchedalmond;
+}
+
+@media (max-width: 600px) {
+    /* untuk device hp */
+    .layout {
+      display: flex;
+      flex-direction: column;
+    }
+  }

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+ {% block content %}
+
+  <h1>Lab 3 Assignment PBP/PBD</h1>
+
+  <h3>Username: {{user}}</h3>
+
+  <style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      width: 45%;
+      max-height: 1200px;
+      display: inline-block;
+      margin: 20px 29px;
+      background-color: #dcedc1;
+      border-radius: 15px;
+    }
+    
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    
+    .container {
+      padding: 50px 10px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      width: 30%;
+    }
+
+    #tombol_ubah, #tombol-delete{
+      width: 60%;
+      margin: 10px;
+      background-color: #a8e6cf;
+      border-color: #dcedc1;
+      box-shadow: 0 4px 13px 0 rgba(0,0,0,0.2);
+    }
+
+    button{
+      background-color: bisque;
+    }
+  </style>
+    {% comment %} Add the data below this line {% endcomment %}
+    {% for task in list_task %}
+      <div class="card">
+        <div class="container">
+          <h4><b>Tanggal Pembuatan Tugas</b></h4>
+          <p>{{task.date}}</p>
+          <h4>Judul Tugas</h4>
+          <p>{{task.title}}</p>
+          <h4>Deskripsi Tugas</h4>
+          <p>{{task.description}}</p>
+          <h4>Status</h4>
+          {% if task.is_finished %}
+            <p>Selesai</p>
+          {% else %}
+            <p>Belum Selesai</p>
+          {% endif %}
+    
+            <form method="POST" action="{% url 'todolist:change_status_cards' %}">  
+              {% csrf_token %}
+                <input type="hidden" value="{{task.id}}" name="task_id">
+                <td><input id = "tombol_ubah" type="submit" value="Ubah" /></td>
+            </form>
+            <form method="POST" action="{% url 'todolist:delete_status_cards' %}">
+              {% csrf_token %}  
+              <input type="hidden" value="{{task.id}}" name="task_id">
+              <input id = "tombol-delete" type="submit" value="Delete"></button>
+            </form>
+        </div>
+      </div>
+    {% endfor %}
+    <br></br>
+  <button><a href="{% url 'todolist:show_todolist' %}">Lihat dalam Tabel</a></button>
+ {% endblock content %}

@@ -19,11 +19,24 @@ def show_todolist(request):
     }
     return render(request, "todolist.html", context)
 
+def show_cards(request):
+    data_todolist = Task.objects.filter(user=request.user)
+    context = {
+        'list_task': data_todolist,
+    }
+    return render(request, "todolist_cards.html", context)
+
 def delete_status(request):
     if request.method == "POST":
         # Task.objects.get(pk=request.DELETE['delete-id']).delete()
         Task.objects.get(pk=request.POST["task_id"]).delete()
     return redirect('todolist:show_todolist')
+
+def delete_status_cards(request):
+    if request.method == "POST":
+        # Task.objects.get(pk=request.DELETE['delete-id']).delete()
+        Task.objects.get(pk=request.POST["task_id"]).delete()
+    return redirect('todolist:show_cards')
 
 def change_status(request):
     if request.method == "POST":
@@ -31,6 +44,13 @@ def change_status(request):
        temp.is_finished = not temp.is_finished
        temp.save()
     return redirect('todolist:show_todolist')
+
+def change_status_cards(request):
+    if request.method == "POST":
+       temp = Task.objects.get(id=request.POST["task_id"])
+       temp.is_finished = not temp.is_finished
+       temp.save()
+    return redirect('todolist:show_cards')
 
 def addTask(request):
     form = TodoListForm()
