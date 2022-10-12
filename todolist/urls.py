@@ -1,6 +1,7 @@
 from django.urls import path
 from todolist.views import show_todolist, register, login_user, logout_user, addTask #sesuaikan dengan nama fungsi yang dibuat
 from todolist.views import change_status, delete_status, show_cards, change_status_cards, delete_status_cards
+from todolist.views import views_ajax, show_json
 
 app_name = 'todolist'
 
@@ -15,4 +16,6 @@ urlpatterns = [
     path('show-cards/', show_cards, name='show_cards'),
     path('change-status-cards/', change_status_cards, name='change_status_cards'),
     path('delete-status-cards/', delete_status_cards, name='delete_status_cards'),
+    path('views-in-json/', show_json, name='show_json'),
+    path('json/', views_ajax, name='views_ajax'),
 ]

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+ {% block content %}
+ <style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      width: 45%;
+      max-height: 1200px;
+      display: inline-block;
+      margin: 20px 29px;
+      background-color: #dcedc1;
+      border-radius: 15px;
+    }
+    
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    
+    .container {
+      padding: 50px 10px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+      width: 30%;
+    }
+
+    #tombol_ubah, #tombol-delete{
+      width: 60%;
+      margin: 10px;
+      background-color: #a8e6cf;
+      border-color: #dcedc1;
+      box-shadow: 0 4px 13px 0 rgba(0,0,0,0.2);
+    }
+
+    button{
+      background-color: bisque;
+    }
+ </style>
+
+<h1>Assignment 6 PBP/PBD</h1>
+
+<h4>Username: {{user}}</h4>
+
+<div id="ajax-cards"></div>
+
+<br></br>
+<button><a href="{% url 'todolist:show_todolist' %}">Lihat dalam Tabel</a></button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  async function getTodolist(){
+    return fetch("{% url 'todolist:show_json' %}").then((res) => res.json())
+  }
+
+  async function refreshTodolist(){
+    document.getElementById("ajax-cards").innerHTML = ""
+    const todolist = await getTodolist()
+    let htmlString = ``
+    todolist.forEach(item=> {
+      console.log(item)
+      htmlString+=`\n
+      <div class="card">
+        <div class="container">
+          <h4><b>Tanggal Pembuatan Tugas</b></h4>
+          <p>${item.fields.date}</p>
+          <h4>Judul Tugas</h4>
+          <p>${item.fields.title}</p>
+          <h4>Deskripsi Tugas</h4>
+          <p>${item.fields.description}</p>
+        </div>
+      </div>
+      `
+    });
+    document.getElementById("ajax-cards").innerHTML = htmlString
+  }
+
+  refreshTodolist()
+</script>
+ {% endblock content %}
