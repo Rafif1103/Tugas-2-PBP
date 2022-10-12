@@ -46,6 +46,35 @@
 
 <br></br>
 <button><a href="{% url 'todolist:show_todolist' %}">Lihat dalam Tabel</a></button>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add task</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New Task</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formtask">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Title:</label>
+            <input type="text" class="form-control" id="field_title" name="judul">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Description:</label>
+            <textarea class="form-control" id="field_desc" name="deskripsi"></textarea>
+          </div>
+        </form>
+      </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addtaskbutton" data-bs-dismiss="modal">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
@@ -58,6 +87,8 @@
     const todolist = await getTodolist()
     let htmlString = ``
     todolist.forEach(item=> {
+      status = item.pk
+      console.log(status)
       console.log(item)
       htmlString+=`\n
       <div class="card">
@@ -68,13 +99,39 @@
           <p>${item.fields.title}</p>
           <h4>Deskripsi Tugas</h4>
           <p>${item.fields.description}</p>
+          <h4>Status</h4>
+          ${item.fields.is_finished ? "<p>Selesai</p>" : "<p>Belum Selesai</p>"}
+              <form method="POST" action="{% url 'todolist:change_status_cards' %}">  
+          {% csrf_token %}
+              <input type="hidden" value=${item.pk} name="task_id">
+              <p><input id = "tombol_ubah" type="submit" value="Ubah" /></p>
+          </form>
+          <button type="button" id= "tombol-delete">
+            <a class="delete_link" href="json/delete/${item.pk}">❌</a>
+          </button>
         </div>
       </div>
       `
     });
     document.getElementById("ajax-cards").innerHTML = htmlString
   }
+  
+  async function addTask() {
+    fetch("{% url 'todolist:addTask_ajax' %}", {
+          method: "POST",
+          body: new FormData(document.querySelector('#formtask'))
+      }).then(refreshTodolist)
+    return false
+  }
 
+  document.getElementById("addtaskbutton").onclick = addTask
+  if(document.getElementById("tombol-delete") != null){
+  document.getElementById("tombol-delete").onclick = refreshTodolist
+  }
+  // document.getElementById("tombol-delete").onclick = refreshTodolist
   refreshTodolist()
+
+
+
 </script>
  {% endblock content %}
