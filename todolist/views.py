@@ -117,9 +117,3 @@ def addTask_ajax(request):
         return HttpResponse(b"CREATED", status=201)
 
     return HttpResponseNotFound()
-
-def deleteTask_ajax(request, id):
-    data = Task.objects.filter(user=request.user).get(pk=id)
-    data.delete()
-
-    return HttpResponse(b"DELETED", status=201)

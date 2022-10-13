@@ -87,9 +87,6 @@
     const todolist = await getTodolist()
     let htmlString = ``
     todolist.forEach(item=> {
-      status = item.pk
-      console.log(status)
-      console.log(item)
       htmlString+=`\n
       <div class="card">
         <div class="container">
@@ -106,9 +103,11 @@
               <input type="hidden" value=${item.pk} name="task_id">
               <p><input id = "tombol_ubah" type="submit" value="Ubah" /></p>
           </form>
-          <button type="button" id= "tombol-delete">
-            <a class="delete_link" href="json/delete/${item.pk}">❌</a>
-          </button>
+          <form method="POST" action="{% url 'todolist:delete_status_cards' %}">
+              {% csrf_token %}  
+              <input type="hidden" value=${item.pk} name="task_id">
+              <input id = "tombol-delete" type="submit" value="Delete"></button>
+            </form>
         </div>
       </div>
       `
@@ -123,12 +122,8 @@
       }).then(refreshTodolist)
     return false
   }
-
+  
   document.getElementById("addtaskbutton").onclick = addTask
-  if(document.getElementById("tombol-delete") != null){
-  document.getElementById("tombol-delete").onclick = refreshTodolist
-  }
-  // document.getElementById("tombol-delete").onclick = refreshTodolist
   refreshTodolist()
 
 

@@ -62,3 +62,136 @@ TUGAS 5
 7. Melakukan adjustment terhadap posisi button sehingga tidak bertabrakan dengan cards
 8. Membuat animasi saat mouse di hover di atas cards (menambahkan shadow)
 9. Menambahkan media querry sehingga halaman todolist dapat diakses dan dilihat dengan nyaman oleh pengguna pada device lain
+
+
+TUGAS 6
+
+**Jelaskan perbedaan antara *asynchronous programming* dengan *synchronous programming*.**
+1. *Asynchronous programming* merupakan suatu model pemrograman yang bersifat *multi thread* sehingga program dapat berjalan secara paralel, sedangkan *synchronous programming* bersifat *single thread* sehingga hanya satu program yang dapat berjalan pada satu waktu.
+2. *Asynchronous programming* dapat mengirimkan banyak *request* ke server, sedangkan *synchronous programming* hanya dapat mengirimkan *request* satu per satu dan akan menunggu sampai *request* yang dikirim untuk dieksekusi oleh server untuk dapat mengirimkan request kembali.
+3. *Asynchrounous programming* dapat meningkatkan jumlah *output* yang dihasilkan karena banyak proses dapat berjalan secara bersamaan, sedangkan *synchronous programming* akan cenderung lebih lama.
+
+**Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma *Event-Driven Programming*. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini.**
+*Event-Driven Programming* merupakan suatu paradigma dimana alur eksekusi program dikontrol oleh suatu kejadian (*event occurence*). Kemunculan *event* akan dipantau oleh bagian kode yang dikenal sebagai *event listener*. Jika *event listener* mendeteksi suatu kejadian yang muncul, maka dia akan melakukan pemanggilan terhadap *handler* untuk mengeksekusi program sesuai *event* yang terjadi (*handler* biasanya merupakan sebuah *callback function* atau *method*). Dalam tugas kali ini, terdapat *Event-Driven Programming* yaitu saat *user* menekan tombol *add* pada modal "add task". Saat tombol ini ditekan, AJAX akan melakukan pemanggilan *method* "async function addTask()" agar data yang sudah di-*input* oleh *user* dapat disimpan kedalam *database*.
+
+**Jelaskan penerapan asynchronous programming pada AJAX.**
+AJAX membuat *user* tidak harus melakukan *refresh* webpage pada browser untuk meng-*update* data pada *webpage* tersebut. Hal ini disebabkan karena AJAX melakukan pertukaran data antara *web browser* dan *web server* serta melakukan *render* untuk menampilkan data yang sudah didapatkan dari server. Proses *update* data ini dapat dilakukan berdasarkan *user-action* seperti menekan tombol ataupun gerakan *mouse*. Hal yang membedakan AJAX dengan HTTP *request* adalah saat HTTP *request*, *user* harus menunggu agar seluruh *webpage* selesai *loading*. Akan tetapi, AJAX dapat mengakses data dari sumber eksternal meskipun *webpage* sudah selesai *loading*.
+
+**Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.**
+1. Membuat fungsi pada views.py yang mengembalikan sebuah JSON response `return HttpResponse(serializers.serialize("json", data_todolist))`
+2. Membuat sebuah file html baru yang akan menampilkan *webpage* secara *asynchronous*. Isi dari html ini kurang lebih sama seperti html yang membuat tampilan todolist menjadi *cards*.
+3. Membuat suatu fungsi di views.py untuk mengembalikan data dari model berdasarkan *user* yang login 
+```py
+def views_ajax(request):
+      return render(request, "todolist_ajax.html")
+```
+4. Melakukan import function views_ajax dan routing di urls.py sehingga *webpage* AJAX dapat diakses melalui link /todolist/json
+```py
+ path('json/', views_ajax, name='views_ajax'),
+```
+6. Membuat suatu tag <div> sebagai tempat untuk menampung data yang diambil dari database dengan menggunakan AJAX
+```html
+<div id="ajax-cards"></div>
+```
+5. Membuat sebuah tag script pada html AJAX yang berisi sebuah async function untuk fetch() data dari fungsi views_ajax dan melakukan *append* ke tag <div id="ajax-cards"></div> beserta dengan mekanisme untuk refresh page secara *asynchronous*
+```js
+ async function getTodolist(){
+    return fetch("{% url 'todolist:show_json' %}").then((res) => res.json())
+  }
+
+  async function refreshTodolist(){
+    document.getElementById("ajax-cards").innerHTML = ""
+    const todolist = await getTodolist()
+    let htmlString = ``
+    todolist.forEach(item=> {
+      htmlString+=`\n
+      <div class="card">
+        <div class="container">
+          <h4><b>Tanggal Pembuatan Tugas</b></h4>
+          <p>${item.fields.date}</p>
+          <h4>Judul Tugas</h4>
+          <p>${item.fields.title}</p>
+          <h4>Deskripsi Tugas</h4>
+          <p>${item.fields.description}</p>
+          <h4>Status</h4>
+          ${item.fields.is_finished ? "<p>Selesai</p>" : "<p>Belum Selesai</p>"}
+              <form method="POST" action="{% url 'todolist:change_status_cards' %}">  
+          {% csrf_token %}
+              <input type="hidden" value=${item.pk} name="task_id">
+              <p><input id = "tombol_ubah" type="submit" value="Ubah" /></p>
+          </form>
+          <form method="POST" action="{% url 'todolist:delete_status_cards' %}">
+              {% csrf_token %}  
+              <input type="hidden" value=${item.pk} name="task_id">
+              <input id = "tombol-delete" type="submit" value="Delete"></button>
+            </form>
+        </div>
+      </div>
+      `
+    });
+    document.getElementById("ajax-cards").innerHTML = htmlString
+  }
+  refreshTodolist()
+```
+6. Membuat sebuah modal dengan framework Bootstrap yang berisi sebuah form sebagai sarana *user* untuk menambahkan todolist pada akun tersebut.
+```html
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Add task</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">New Task</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formtask">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Title:</label>
+            <input type="text" class="form-control" id="field_title" name="judul">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">Description:</label>
+            <textarea class="form-control" id="field_desc" name="deskripsi"></textarea>
+          </div>
+        </form>
+      </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="addtaskbutton" data-bs-dismiss="modal">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+7. Membuat sebuah async function sebagai *handler* saat tombol add pada modal ditekan
+```js
+  async function addTask() {
+    fetch("{% url 'todolist:addTask_ajax' %}", {
+          method: "POST",
+          body: new FormData(document.querySelector('#formtask'))
+      }).then(refreshTodolist)
+    return false
+  }
+  
+  document.getElementById("addtaskbutton").onclick = addTask
+```
+8. Membuat sebuah fungsi di views.py dengan nama addTask_ajax agar data yang di-*input* *user* dapat disimpan pada database
+```py
+def addTask_ajax(request):
+    if request.method == 'POST':
+        title = request.POST.get("judul")
+        deskripsi = request.POST.get("deskripsi")
+
+        new_todolist = Task(title=title, description=deskripsi, user=request.user)
+        new_todolist.save()
+
+        return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()
+```
+9. Melakukan routing terhadap fungsi addTask_ajax
+```py
+path('add/', addTask_ajax, name='addTask_ajax'),
+```
