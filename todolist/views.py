@@ -117,3 +117,17 @@ def addTask_ajax(request):
         return HttpResponse(b"CREATED", status=201)
 
     return HttpResponseNotFound()
+
+def deleteTask_ajax(request, id):
+    todolist = Task.objects.filter(user=request.user).get(pk=id)
+    todolist.delete()
+
+    return HttpResponse(b"DELETED", status=204)
+
+def changeStatus_ajax(request, id):
+    todolist = Task.objects.filter(user=request.user).get(pk=id)
+    todolist.is_finished = not todolist.is_finished
+    todolist.save()
+
+    return HttpResponse(b"DELETED", status=204) 
+
